@@ -5,11 +5,14 @@
  */
 package cris.juegooca;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Cris
  */
 public class Juego {
+
     private final Tablero tablero;
     private final ControladorJugadores cj;
 
@@ -25,6 +28,17 @@ public class Juego {
 
     }
 
+    private static boolean terminar(ArrayList<Jugador> prueba) {
+        boolean sol = false;
+        for (Jugador j : prueba) {
+            if (j.ganaPartida()) {
+                sol = true;
+            }
+        }
+        return sol;
+
+    }
+
     public static void main(String[] args) {
 
         // Se crea el juego
@@ -32,9 +46,28 @@ public class Juego {
         ControladorJugadores cj = new ControladorJugadores(nombres);
         Tablero tablero = new Tablero();
         Juego juego = new Juego(tablero, cj);
+        ArrayList<Jugador> aux = cj.getTodosJugadores();
 
-        // Imprime el estado del tablero inicialmente
-        Vista.mostrarTablero(juego.getTablero());
+        do {
+            // Imprime el estado del tablero inicialmente
+            Vista.mostrarTablero(juego.getTablero());
+            for (Jugador jugador : aux) {
+            	do {
+                tablero.getCasilla(jugador.getCasillaActual()).quitarJugador(jugador);
+                
+                jugador.tirarDado();
+                
+                jugador.mover(jugador.getTirada());
+                
+                Vista.informarTirada(jugador);
+                
+                Vista.informarProgreso(jugador);
+                
+                tablero.getCasilla(jugador.getTirada()).ponerJugador(jugador);
+                
+            	}while(tablero.getCasilla(jugador.getCasillaActual()).getTipo().isTiradaExtra());
+            }
+        } while (!terminar(aux));
 
     }
 
@@ -45,6 +78,5 @@ public class Juego {
     public ControladorJugadores getCj() {
         return cj;
     }
-    
-    
+
 }
