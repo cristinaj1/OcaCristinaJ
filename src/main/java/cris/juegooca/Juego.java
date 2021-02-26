@@ -43,9 +43,13 @@ public class Juego {
 
         // Se crea el juego
         String[] nombres = {"J1", "J2", "J3"};
+        
         ControladorJugadores cj = new ControladorJugadores(nombres);
+        
         Tablero tablero = new Tablero();
+        
         Juego juego = new Juego(tablero, cj);
+        
         ArrayList<Jugador> aux = cj.getTodosJugadores();
 
         do {
@@ -63,7 +67,11 @@ public class Juego {
                 
                 Vista.informarProgreso(jugador);
                 
-                tablero.getCasilla(jugador.getTirada()).ponerJugador(jugador);
+                jugador.mover(tablero.getCasilla(jugador.getCasillaActual()).getTipo().getSiguienteMovimiento());
+                
+                jugador.setTurnosSinJugar(tablero.getCasilla(jugador.getCasillaActual()).getTipo().getTurnosSinJugar());
+                
+                tablero.getCasilla(jugador.getCasillaActual()).ponerJugador(jugador);
                 
             	}while(tablero.getCasilla(jugador.getCasillaActual()).getTipo().isTiradaExtra());
             }
