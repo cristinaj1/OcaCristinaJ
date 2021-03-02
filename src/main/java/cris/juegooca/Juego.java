@@ -69,6 +69,8 @@ public class Juego {
                 
                 jugador.mover(tablero.getCasilla(jugador.getCasillaActual()).getTipo().getSiguienteMovimiento());
                 
+    //Haz un bucle para que se ejecute
+                
                 jugador.setTurnosSinJugar(tablero.getCasilla(jugador.getCasillaActual()).getTipo().getTurnosSinJugar());
                 
                 tablero.getCasilla(jugador.getCasillaActual()).ponerJugador(jugador);
